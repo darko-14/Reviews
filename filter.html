@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <title>Reviews</title>
+</head>
+<body>
+   <div class="container mt-4">
+      <div class="row d-flex justify-content-around">
+         <div class="col-lg-8">
+            <h2>Reviews</h3>
+            <table class="table table-striped">
+               <thead>
+                  <tr>
+                     <th scope="col">#</th>
+                     <th scope="col">Name</th>
+                     <th scope="col">Rating</th>
+                     <th scope="col">Date</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th scope="row">1</th>
+                     <td>/</td>
+                     <td>/</td>
+                     <td>/</td>
+                  </tr>
+                  <tr>
+                     <th scope="row">2</th>
+                     <td>/</td>
+                     <td>/</td>
+                     <td>/</td>
+                  </tr>
+                  <tr>
+                     <th scope="row">3</th>
+                     <td>/</td>
+                     <td>/</td>
+                     <td>/</td>
+                  </tr>
+               </tbody>
+            </table>
+            <br>
+            
+         </div>
+
+         <div class="col-md-3">
+            <h3>Filter Reviews</h3>
+            <form action="" class="mw-5">
+      
+               <div class="form-group">
+                  <label for="rating">Order by rating:</label><br>
+                  <select class="form-control" name="rating" id="rating">
+                     <option value="highest">Highest First</option>
+                     <option value="lowest">Lowest First</option>
+                  </select>
+               </div>
+      
+               <div class="form-group">
+                  <label for="min">Minimum rating:</label><br>
+                  <select class="form-control" name="min" id="min">
+                     <option value="5">5</option>
+                     <option value="4">4</option>
+                     <option value="3">3</option>
+                     <option value="2">2</option>
+                     <option value="1">1</option>
+                  </select>
+               </div>
+      
+               <div class="form-group">
+                  <label for="date">Order by date:</label><br>
+                  <select class="form-control" name="date" id="date">
+                     <option value="newest">Newest First</option>
+                     <option value="oldest">Oldest First</option>
+                  </select>
+                  
+               </div>
+               
+               <div class="form-group">
+                  <label for="text">Prioritize by text:</label><br>
+                  <select class="form-control" name="text" id="text">
+                     <option value="yes">Yes</option>
+                     <option value="no">No</option>
+                  </select>
+               </div>
+      
+               <input type="submit" value="Filter" class="btn btn-primary">
+      
+            </form>
+         </div>
+
+      </div>
+      <br>
+   </div>
+
+
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
