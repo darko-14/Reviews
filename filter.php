@@ -24,7 +24,7 @@
                <tbody>
 
                <?php 
-               
+
                   $reviews = json_decode(file_get_contents("reviews.json"), false);
                  
                   foreach($reviews as $key => $value){
@@ -89,12 +89,81 @@
       
                <input type="submit" value="Filter" class="btn btn-primary">
                <?php 
+                  $result = array();
+                  $withText = array();
+                  $withoutText = array();
+
                   $rating = $_POST['rating'];
                   $min = $_POST['min'];
                   $date = $_POST['date'];
                   $text = $_POST['text'];
                   $msg = "Rating: ".$rating." Min: ".$min." Date: ".$date." Text: ".$text." ";
                   echo $msg;
+
+                  echo gettype($text);
+                  foreach($reviews as $key => $value){
+                     if ($value->rating >= $min) {
+                        if ($text === "No") {
+                           array_push($result, $value);
+                        }elseif($text === "Yes"){
+                           if(strlen($value->reviewText) >= 1){
+                              array_push($withText, $value);
+                           }else{
+                              array_push($withoutText, $value);
+                           }
+                        }
+                     }
+                  }
+
+                  if($rating === "Highest First"){
+                     usort($result, function($a, $b){
+                        return $a->rating < $b->rating;
+                     });
+                     usort($withText, function($a, $b){
+                        return $a->rating < $b->rating;
+                     });
+                     usort($withoutText, function($a, $b){
+                        return $a->rating < $b->rating;
+                     });
+                  }elseif($rating === "Lowest First"){
+                     usort($result, function($a, $b){
+                        return $a->rating > $b->rating;
+                     });
+                     usort($withText, function($a, $b){
+                        return $a->rating > $b->rating;
+                     });
+                     usort($withoutText, function($a, $b){
+                        return $a->rating > $b->rating;
+                     });
+                  }
+
+
+                  
+                  
+
+
+                  if(count($result) > 0){
+                     foreach($result as $key=>$value){
+                        echo '<li>'.$value->rating.' - '.$value->reviewText.'</li>';
+                     }
+                  }else{
+                     foreach($withText as $key=>$value){
+                        echo '<li>'.$value->rating.' - '.$value->reviewText.'</li>';
+                     }
+                     foreach($withoutText as $key=>$value){
+                        echo '<li>'.$value->rating.' - '.$value->reviewText.'</li>';
+                     }
+                  }
+                  print_r(count($withText));
+                  print_r(count($withoutText));
+                  print_r(count($result));
+                  
+                
+                  
+                  
+
+
+
                ?>
             </form>
          </div>
