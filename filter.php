@@ -12,49 +12,50 @@
       <div class="row d-flex justify-content-around">
          <div class="col-lg-8">
             <h2>Reviews</h3>
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
                <thead>
                   <tr>
                      <th scope="col">#</th>
-                     <th scope="col">Name</th>
+                     <th scope="col">Text</th>
                      <th scope="col">Rating</th>
                      <th scope="col">Date</th>
                   </tr>
                </thead>
                <tbody>
-                  <tr>
-                     <th scope="row">1</th>
-                     <td>/</td>
-                     <td>/</td>
-                     <td>/</td>
-                  </tr>
-                  <tr>
-                     <th scope="row">2</th>
-                     <td>/</td>
-                     <td>/</td>
-                     <td>/</td>
-                  </tr>
-                  <tr>
-                     <th scope="row">3</th>
-                     <td>/</td>
-                     <td>/</td>
-                     <td>/</td>
-                  </tr>
+
+               <?php 
+               
+                  $reviews = json_decode(file_get_contents("reviews.json"), false);
+                 
+                  foreach($reviews as $key => $value){
+                     $key = $key + 1;
+                     echo '<tr>';
+                        echo '<th>'.$key.'</th>';
+                        echo '<td>'.$value->reviewText.'</td>';
+                        echo '<td>'.$value->rating.'</td>';
+                        echo '<td>'.$value->reviewCreatedOnDate.'</td>';
+                     echo '</tr>';
+                  }
+
+               ?>
+                 
                </tbody>
             </table>
             <br>
             
+         
+
          </div>
 
          <div class="col-md-3">
             <h3>Filter Reviews</h3>
-            <form action="" class="mw-5">
+            <form method="POST" class="mw-5">
       
                <div class="form-group">
                   <label for="rating">Order by rating:</label><br>
                   <select class="form-control" name="rating" id="rating">
-                     <option value="highest">Highest First</option>
-                     <option value="lowest">Lowest First</option>
+                     <option value="Highest First">Highest First</option>
+                     <option value="Lowest First">Lowest First</option>
                   </select>
                </div>
       
@@ -72,8 +73,8 @@
                <div class="form-group">
                   <label for="date">Order by date:</label><br>
                   <select class="form-control" name="date" id="date">
-                     <option value="newest">Newest First</option>
-                     <option value="oldest">Oldest First</option>
+                     <option value="Newest First">Newest First</option>
+                     <option value="Oldest First">Oldest First</option>
                   </select>
                   
                </div>
@@ -81,13 +82,20 @@
                <div class="form-group">
                   <label for="text">Prioritize by text:</label><br>
                   <select class="form-control" name="text" id="text">
-                     <option value="yes">Yes</option>
-                     <option value="no">No</option>
+                     <option value="Yes">Yes</option>
+                     <option value="No">No</option>
                   </select>
                </div>
       
                <input type="submit" value="Filter" class="btn btn-primary">
-      
+               <?php 
+                  $rating = $_POST['rating'];
+                  $min = $_POST['min'];
+                  $date = $_POST['date'];
+                  $text = $_POST['text'];
+                  $msg = "Rating: ".$rating." Min: ".$min." Date: ".$date." Text: ".$text." ";
+                  echo $msg;
+               ?>
             </form>
          </div>
 
@@ -96,7 +104,6 @@
    </div>
 
 
-   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+   
 </body>
 </html>
