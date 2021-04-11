@@ -36,14 +36,10 @@
                         echo '<td>'.$value->reviewCreatedOnDate.'</td>';
                      echo '</tr>';
                   }
-
                ?>
                </tbody>
-            
             </table>
             <br>
-
-
          </div>
 
          <div class="col-md-3">
@@ -98,15 +94,13 @@
                   $min = $_POST['min'];
                   $date = $_POST['date'];
                   $text = $_POST['text'];
-                  $msg = "Rating: ".$rating." Min: ".$min." Date: ".$date." Text: ".$text." ";
-                  echo $msg;
-
                   
-                  foreach($reviews as $key => $value){  // site reviews
-                     if ($value->rating >= $min) {       // site reviews so min rating
-                        if ($text === "No") {            // ako ne vazi text
+                  
+                  foreach($reviews as $key => $value){  
+                     if ($value->rating >= $min) {       
+                        if ($text === "No") {           
                            array_push($result, $value);
-                        }elseif($text === "Yes"){        // ako vazi text
+                        }elseif($text === "Yes"){       
                            if(strlen($value->reviewText) >= 1){
                               array_push($withText, $value);
                            }else{
@@ -115,12 +109,10 @@
                         }
                      }
                   }
-                  $rez = array('one', 'two', 'three', array('four'));
-                  array_push($rez, array('z'));
-                  print_r($rez);
-
+                
                   // Sort by rating
                   if($rating === "Highest First"){
+                     
                      usort($result, function($a, $b){
                         return $a->rating < $b->rating;
                      });
@@ -142,55 +134,30 @@
                      });
                   }
 
-                  // Sort by date
-                  // if($date === "Newest First"){
-                  //    usort($result, function($a, $b){
-                  //       return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
-                  //    });
-                  //    usort($withText, function($a, $b){
-                  //       return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
-                  //    });
-                  //    usort($withoutText, function($a, $b){
-                  //       return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
-                  //    });
-                  // }elseif($date === "Oldest First"){
-                  //    usort($result, function($a, $b){
-                  //       return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
-                  //    });
-                  //    usort($withText, function($a, $b){
-                  //       return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
-                  //    });
-                  //    usort($withoutText, function($a, $b){
-                  //       return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
-                  //    });
-                  // }
-
-
-                  
-                  
-
-
                   if(count($result) > 0){
-                     foreach($result as $key=>$value){
-                        echo '<li>'.$value->rating.' - '.$value->reviewText.' - '.$value->reviewCreatedOnDate.'</li>';
+                     $newArray = array();
+                     if($date == "Oldest First"){
+                        $oldest = array();
+                        foreach($result as $key=>$value){
+                           // reverse 
+                        }
                      }
+                    
                   }else{
-                     foreach($withText as $key=>$value){
-                        echo '<li>'.$value->rating.' - '.$value->reviewText.' - '.$value->reviewCreatedOnDate.'</li>';
+                     $newArray = array();
+                     if($date == "Oldest First"){
+                        $oldestWithText = array();
+                        foreach($withText as $key=>$value){
+                           // reverse 
+                        }
+                        $oldestWithoutText = array();
+                        foreach($withoutText as $key=>$value){
+                           // reverse 
+                        }
                      }
-                     foreach($withoutText as $key=>$value){
-                        echo '<li>'.$value->rating.' - '.$value->reviewText.' - '.$value->reviewCreatedOnDate.'</li>';
-                     }
+                     
                   }
-                  print_r(count($withText));
-                  print_r(count($withoutText));
-                  print_r(count($result));
                   
-
-                  
-
-
-
                ?>
 
                <script>
@@ -199,23 +166,11 @@
                   var result = '<?php echo json_encode($result); ?>'
                   var withText = '<?php echo json_encode($withText); ?>'
                   var withoutText = '<?php echo json_encode($withoutText); ?>'
-                  // console.log(withText);
-                  // console.log(withoutText);
-                  // console.log(result);
-                  
-                  
+                                    
                   result = JSON.parse(result);
                   withText = JSON.parse(withText);
                   withoutText = JSON.parse(withoutText);
-                  // console.log(withText.length);
-                  // console.log(withoutText.length);
-                  // console.log(result.length);
-
-                  // for ( var i in result){
-                  //    console.log(result[i]);
-                  // }
-
-           
+                  
                  var output = "";
                   if(result.length > 0){
                      tbody.innerHTML = ""
@@ -246,9 +201,7 @@
                         </tr>`
                      }
                   }
-
-                  
-
+         
                  if(withText.length > 0 || withoutText.length > 0 || result.length > 0){
                      tbody.innerHTML = output
                  }else{
@@ -268,10 +221,7 @@
 
                      ?>"
                  }
-                  
-
                </script>
-
             </form>
          </div>
 
