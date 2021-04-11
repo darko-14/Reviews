@@ -15,22 +15,22 @@
             <table class="table table-striped table-bordered">
                <thead>
                   <tr>
-                     <th scope="col">#</th>
+                     <th scope="col">ID</th>
                      <th scope="col">Text</th>
                      <th scope="col">Rating</th>
                      <th scope="col">Date</th>
                   </tr>
                </thead>
-               <tbody id="tbody">
 
+               <tbody id="tbody">
                <?php 
 
                   $reviews = json_decode(file_get_contents("reviews.json"), false);
                   
                   foreach($reviews as $key => $value){
-                     $key = $key + 1;
+                     
                      echo '<tr>';
-                        echo '<th>'.$key.'</th>';
+                        echo '<th>'.$value->id.'</th>';
                         echo '<td>'.$value->reviewText.'</td>';
                         echo '<td>'.$value->rating.'</td>';
                         echo '<td>'.$value->reviewCreatedOnDate.'</td>';
@@ -38,8 +38,8 @@
                   }
 
                ?>
-                 
                </tbody>
+            
             </table>
             <br>
 
@@ -79,7 +79,7 @@
                </div>
                
                <div class="form-group">
-                  <label for="text">Prioritize by text:</label><br>
+                  <label  for="text">Prioritize by text:</label><br>
                   <select class="form-control" name="text" id="text">
                      <option value="Yes">Yes</option>
                      <option value="No">No</option>
@@ -101,12 +101,12 @@
                   $msg = "Rating: ".$rating." Min: ".$min." Date: ".$date." Text: ".$text." ";
                   echo $msg;
 
-                  // echo gettype($text);
-                  foreach($reviews as $key => $value){
-                     if ($value->rating >= $min) {
-                        if ($text === "No") {
+                  
+                  foreach($reviews as $key => $value){  // site reviews
+                     if ($value->rating >= $min) {       // site reviews so min rating
+                        if ($text === "No") {            // ako ne vazi text
                            array_push($result, $value);
-                        }elseif($text === "Yes"){
+                        }elseif($text === "Yes"){        // ako vazi text
                            if(strlen($value->reviewText) >= 1){
                               array_push($withText, $value);
                            }else{
@@ -115,6 +115,9 @@
                         }
                      }
                   }
+                  $rez = array('one', 'two', 'three', array('four'));
+                  array_push($rez, array('z'));
+                  print_r($rez);
 
                   // Sort by rating
                   if($rating === "Highest First"){
@@ -140,27 +143,27 @@
                   }
 
                   // Sort by date
-                  if($date === "Newest First"){
-                     usort($result, function($a, $b){
-                        return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
-                     });
-                     usort($withText, function($a, $b){
-                        return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
-                     });
-                     usort($withoutText, function($a, $b){
-                        return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
-                     });
-                  }elseif($date === "Oldest First"){
-                     usort($result, function($a, $b){
-                        return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
-                     });
-                     usort($withText, function($a, $b){
-                        return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
-                     });
-                     usort($withoutText, function($a, $b){
-                        return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
-                     });
-                  }
+                  // if($date === "Newest First"){
+                  //    usort($result, function($a, $b){
+                  //       return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
+                  //    });
+                  //    usort($withText, function($a, $b){
+                  //       return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
+                  //    });
+                  //    usort($withoutText, function($a, $b){
+                  //       return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
+                  //    });
+                  // }elseif($date === "Oldest First"){
+                  //    usort($result, function($a, $b){
+                  //       return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
+                  //    });
+                  //    usort($withText, function($a, $b){
+                  //       return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
+                  //    });
+                  //    usort($withoutText, function($a, $b){
+                  //       return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
+                  //    });
+                  // }
 
 
                   
@@ -196,28 +199,29 @@
                   var result = '<?php echo json_encode($result); ?>'
                   var withText = '<?php echo json_encode($withText); ?>'
                   var withoutText = '<?php echo json_encode($withoutText); ?>'
-                  console.log(withText);
-                  console.log(withoutText);
-                  console.log(result);
+                  // console.log(withText);
+                  // console.log(withoutText);
+                  // console.log(result);
                   
                   
                   result = JSON.parse(result);
                   withText = JSON.parse(withText);
                   withoutText = JSON.parse(withoutText);
-                  console.log(withText.length);
-                  console.log(withoutText.length);
-                  console.log(result.length);
+                  // console.log(withText.length);
+                  // console.log(withoutText.length);
+                  // console.log(result.length);
 
-                  for ( var i in result){
-                     console.log(result[i]);
-                  }
+                  // for ( var i in result){
+                  //    console.log(result[i]);
+                  // }
 
-                 var output;
+           
+                 var output = "";
                   if(result.length > 0){
                      tbody.innerHTML = ""
                      for(var i=0; i<result.length; i++){
                         output += `<tr>
-                        <th>${i+1}</th>
+                        <th>${result[i]['id']}</th>
                         <td>${result[i]['reviewText']}</td>
                         <td>${result[i]['rating']}</td>
                         <td>${result[i]['reviewCreatedOnDate']}</td>
@@ -227,7 +231,7 @@
                      tbody.innerHTML = ""
                      for(var i=0; i<withText.length; i++){
                         output += `<tr>
-                        <th>${i+1}</th>
+                        <th>${withText[i]['id']}</th>
                         <td>${withText[i]['reviewText']}</td>
                         <td>${withText[i]['rating']}</td>
                         <td>${withText[i]['reviewCreatedOnDate']}</td>
@@ -235,7 +239,7 @@
                      }
                      for(var i=0; i<withoutText.length; i++){
                         output += `<tr>
-                        <th>${i+1}</th>
+                        <th>${withoutText[i]['id']}</th>
                         <td>${withoutText[i]['reviewText']}</td>
                         <td>${withoutText[i]['rating']}</td>
                         <td>${withoutText[i]['reviewCreatedOnDate']}</td>
@@ -247,6 +251,22 @@
 
                  if(withText.length > 0 || withoutText.length > 0 || result.length > 0){
                      tbody.innerHTML = output
+                 }else{
+                    tbody.innerHTML = "<?php 
+
+                     $reviews = json_decode(file_get_contents("reviews.json"), false);
+
+                     foreach($reviews as $key => $value){
+                        $key = $key + 1;
+                        echo '<tr>';
+                           echo '<th>'.$value->id.'</th>';
+                           echo '<td>'.$value->reviewText.'</td>';
+                           echo '<td>'.$value->rating.'</td>';
+                           echo '<td>'.$value->reviewCreatedOnDate.'</td>';
+                        echo '</tr>';
+                     }
+
+                     ?>"
                  }
                   
 
