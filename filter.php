@@ -137,6 +137,28 @@
                      });
                   }
 
+                  if($date === "Newest First"){
+                     usort($result, function($a, $b){
+                        return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
+                     });
+                     usort($withText, function($a, $b){
+                        return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
+                     });
+                     usort($withoutText, function($a, $b){
+                        return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
+                     });
+                  }elseif($date === "Oldest First"){
+                     usort($result, function($a, $b){
+                        return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
+                     });
+                     usort($withText, function($a, $b){
+                        return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
+                     });
+                     usort($withoutText, function($a, $b){
+                        return $a->reviewCreatedOnDate > $b->reviewCreatedOnDate;
+                     });
+                  }
+
 
                   
                   
@@ -144,14 +166,14 @@
 
                   if(count($result) > 0){
                      foreach($result as $key=>$value){
-                        echo '<li>'.$value->rating.' - '.$value->reviewText.'</li>';
+                        echo '<li>'.$value->rating.' - '.$value->reviewText.' - '.$value->reviewCreatedOnDate.'</li>';
                      }
                   }else{
                      foreach($withText as $key=>$value){
-                        echo '<li>'.$value->rating.' - '.$value->reviewText.'</li>';
+                        echo '<li>'.$value->rating.' - '.$value->reviewText.' - '.$value->reviewCreatedOnDate.'</li>';
                      }
                      foreach($withoutText as $key=>$value){
-                        echo '<li>'.$value->rating.' - '.$value->reviewText.'</li>';
+                        echo '<li>'.$value->rating.' - '.$value->reviewText.' - '.$value->reviewCreatedOnDate.'</li>';
                      }
                   }
                   print_r(count($withText));
