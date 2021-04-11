@@ -21,12 +21,12 @@
                      <th scope="col">Date</th>
                   </tr>
                </thead>
-               <tbody>
+               <tbody id="tbody">
 
                <?php 
 
                   $reviews = json_decode(file_get_contents("reviews.json"), false);
-                 
+                  
                   foreach($reviews as $key => $value){
                      $key = $key + 1;
                      echo '<tr>';
@@ -42,14 +42,13 @@
                </tbody>
             </table>
             <br>
-            
-         
+
 
          </div>
 
          <div class="col-md-3">
             <h3>Filter Reviews</h3>
-            <form method="POST" class="mw-5">
+            <form method="POST" class="mw-5" id="form">
       
                <div class="form-group">
                   <label for="rating">Order by rating:</label><br>
@@ -88,7 +87,9 @@
                </div>
       
                <input type="submit" value="Filter" class="btn btn-primary">
+              
                <?php 
+
                   $result = array();
                   $withText = array();
                   $withoutText = array();
@@ -100,7 +101,7 @@
                   $msg = "Rating: ".$rating." Min: ".$min." Date: ".$date." Text: ".$text." ";
                   echo $msg;
 
-                  echo gettype($text);
+                  // echo gettype($text);
                   foreach($reviews as $key => $value){
                      if ($value->rating >= $min) {
                         if ($text === "No") {
@@ -115,6 +116,7 @@
                      }
                   }
 
+                  // Sort by rating
                   if($rating === "Highest First"){
                      usort($result, function($a, $b){
                         return $a->rating < $b->rating;
@@ -137,6 +139,7 @@
                      });
                   }
 
+                  // Sort by date
                   if($date === "Newest First"){
                      usort($result, function($a, $b){
                         return $a->reviewCreatedOnDate < $b->reviewCreatedOnDate;
@@ -180,13 +183,75 @@
                   print_r(count($withoutText));
                   print_r(count($result));
                   
-                
-                  
+
                   
 
 
 
                ?>
+
+               <script>
+                  const form = document.getElementById('form');
+                  const tbody = document.getElementById('tbody');
+                  var result = '<?php echo json_encode($result); ?>'
+                  var withText = '<?php echo json_encode($withText); ?>'
+                  var withoutText = '<?php echo json_encode($withoutText); ?>'
+                  console.log(withText);
+                  console.log(withoutText);
+                  console.log(result);
+                  
+                  
+                  result = JSON.parse(result);
+                  withText = JSON.parse(withText);
+                  withoutText = JSON.parse(withoutText);
+                  console.log(withText.length);
+                  console.log(withoutText.length);
+                  console.log(result.length);
+
+                  for ( var i in result){
+                     console.log(result[i]);
+                  }
+
+                 var output;
+                  if(result.length > 0){
+                     tbody.innerHTML = ""
+                     for(var i=0; i<result.length; i++){
+                        output += `<tr>
+                        <th>${i+1}</th>
+                        <td>${result[i]['reviewText']}</td>
+                        <td>${result[i]['rating']}</td>
+                        <td>${result[i]['reviewCreatedOnDate']}</td>
+                        </tr>`
+                     }
+                  }else{
+                     tbody.innerHTML = ""
+                     for(var i=0; i<withText.length; i++){
+                        output += `<tr>
+                        <th>${i+1}</th>
+                        <td>${withText[i]['reviewText']}</td>
+                        <td>${withText[i]['rating']}</td>
+                        <td>${withText[i]['reviewCreatedOnDate']}</td>
+                        </tr>`
+                     }
+                     for(var i=0; i<withoutText.length; i++){
+                        output += `<tr>
+                        <th>${i+1}</th>
+                        <td>${withoutText[i]['reviewText']}</td>
+                        <td>${withoutText[i]['rating']}</td>
+                        <td>${withoutText[i]['reviewCreatedOnDate']}</td>
+                        </tr>`
+                     }
+                  }
+
+                  
+
+                 if(withText.length > 0 || withoutText.length > 0 || result.length > 0){
+                     tbody.innerHTML = output
+                 }
+                  
+
+               </script>
+
             </form>
          </div>
 
