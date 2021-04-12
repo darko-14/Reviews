@@ -134,12 +134,6 @@
                      });
                   }
 
-                  var_dump($result);
-                  var_dump($withText);
-                  var_dump($withoutText);
-                  echo "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
-                  
-
                   // sort by date
                   if(count($result) > 0){                      // vo RESULT
                      if($date == "Oldest First"){
@@ -160,12 +154,11 @@
                            }
                         }
                         $result = $newArray;
-                        var_dump($newArray);
                      }
                     
                   }else{                                       // vo withText & withoutText
                      if($date == "Oldest First"){
-                        $newArray = array();
+                        $wText = array();
                         for ($i=0; $i < sizeof($withText); $i++) {   // vo withText
                            $temp;
                            if($withText[$i]->rating != $temp){
@@ -176,27 +169,32 @@
                                  }
                               }
                               foreach(array_reverse($temp) as $v){
-                                 array_push($newArray, $v);
+                                 array_push($wText, $v);
                               }
                               $temp = $withText[$i]->rating;
                            }
                         }
+                        $withText = $wText;
+                        $woText = array();
+                        
                         for ($i=0; $i < sizeof($withoutText); $i++) {   // vo withoutText
-                           $temp;
-                           if($withoutText[$i]->rating != $temp){
-                              $temp = array();
+                           $tmp;
+                           if($withoutText[$i]->rating != $tmp){
+                              $tmp = array();
                               foreach($withoutText as $value){
                                  if($value->rating == $withoutText[$i]->rating){
-                                    array_push($temp, $value);
+                                    array_push($tmp, $value);
                                  }
                               }
-                              foreach(array_reverse($temp) as $v){
-                                 array_push($newArray, $v);
+                              foreach(array_reverse($tmp) as $v){
+                                 array_push($woText, $v);
                               }
-                              $temp = $withoutText[$i]->rating;
+                              $tmp = $withoutText[$i]->rating;
                            }
                         }
-                        $result = $newArray;
+                        $withoutText = $woText;
+                        
+                        
                      }
                   }
                ?>
