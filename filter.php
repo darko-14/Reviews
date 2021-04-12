@@ -134,30 +134,71 @@
                      });
                   }
 
-                  if(count($result) > 0){
-                     $newArray = array();
+                  var_dump($result);
+                  var_dump($withText);
+                  var_dump($withoutText);
+                  echo "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
+                  
+
+                  // sort by date
+                  if(count($result) > 0){                      // vo RESULT
                      if($date == "Oldest First"){
-                        $oldest = array();
-                        foreach($result as $key=>$value){
-                           // reverse 
+                        $newArray = array();
+                        for ($i=0; $i < sizeof($result); $i++) { 
+                           $temp;
+                           if($result[$i]->rating != $temp){
+                              $temp = array();
+                              foreach($result as $value){
+                                 if($value->rating == $result[$i]->rating){
+                                    array_push($temp, $value);
+                                 }
+                              }
+                              foreach(array_reverse($temp) as $v){
+                                 array_push($newArray, $v);
+                              }
+                              $temp = $result[$i]->rating;
+                           }
                         }
+                        $result = $newArray;
+                        var_dump($newArray);
                      }
                     
-                  }else{
-                     $newArray = array();
+                  }else{                                       // vo withText & withoutText
                      if($date == "Oldest First"){
-                        $oldestWithText = array();
-                        foreach($withText as $key=>$value){
-                           // reverse 
+                        $newArray = array();
+                        for ($i=0; $i < sizeof($withText); $i++) {   // vo withText
+                           $temp;
+                           if($withText[$i]->rating != $temp){
+                              $temp = array();
+                              foreach($withText as $value){
+                                 if($value->rating == $withText[$i]->rating){
+                                    array_push($temp, $value);
+                                 }
+                              }
+                              foreach(array_reverse($temp) as $v){
+                                 array_push($newArray, $v);
+                              }
+                              $temp = $withText[$i]->rating;
+                           }
                         }
-                        $oldestWithoutText = array();
-                        foreach($withoutText as $key=>$value){
-                           // reverse 
+                        for ($i=0; $i < sizeof($withoutText); $i++) {   // vo withoutText
+                           $temp;
+                           if($withoutText[$i]->rating != $temp){
+                              $temp = array();
+                              foreach($withoutText as $value){
+                                 if($value->rating == $withoutText[$i]->rating){
+                                    array_push($temp, $value);
+                                 }
+                              }
+                              foreach(array_reverse($temp) as $v){
+                                 array_push($newArray, $v);
+                              }
+                              $temp = $withoutText[$i]->rating;
+                           }
                         }
+                        $result = $newArray;
                      }
-                     
                   }
-                  
                ?>
 
                <script>
